@@ -1,0 +1,231 @@
+\documentclass[11pt,twoside,a4paper,openright]{these-ucl}
+
+% Margins required by the CIACO
+\usepackage[left=4.5cm,right=4.5cm,top=4.8cm,bottom=4.8cm]{geometry}
+
+% For encoding
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% For quotes
+\usepackage{epigraph}
+
+% Additional math symbols 
+\usepackage{amssymb}
+
+% Biblatex provides much more flexibility than bibtex for bibliography and citation management
+% For quotes used by biblatex
+\usepackage{csquotes}
+% alphabetic style for labeled citations, maxbibnames to 99 to avoid "et al." in bibliography, giveninits to true to keep only given name initials
+\usepackage[style=alphabetic,maxbibnames=99,giveninits=true]{biblatex}
+% Add your bib files here
+\addbibresource{biblio.bib}
+
+% When calling "\fullcite", prevent it from "et al."ing
+\preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
+% Some bib fields might be useless to show, the following lines configure this
+\AtEveryBibitem{% Clean up the bibtex rather than editing it
+	\clearlist{language}
+	\ifentrytype{online}{}{% Remove url except for @online
+		\clearfield{url}
+		\clearfield{urldate}
+	}
+}
+
+% The following commands allow citing own contributions in the "Bibliographic notes" section without appearing in the "References" one
+\DeclareBibliographyCategory{fullcited}
+\newcommand{\mybibexclude}[1]{\addtocategory{fullcited}{#1}}
+% The "\myfullcite" command to be used in the "Bibliographic notes" section
+\newcommand{\myfullcite}[1]{\fullcite{#1}.\mybibexclude{#1}}
+%\usepackage{cite}
+%\usepackage{bibentry}
+
+% Linux Libertine is a nice font; notice that we scale the "\texttt", as the default tt font is too large
+\usepackage[ttscale=.875]{libertine}
+% Also adapt the math mode
+\usepackage[libertine]{newtxmath}
+
+% Enable to customize the format of the "\today" command
+\usepackage{datetime}
+
+% Add key-value interface for "\includegraphics" command
+\usepackage{graphicx}
+
+% Provide "\multirow" for tabular environment
+\usepackage{multirow}
+
+% Enable URL command with hyperlinks, while forcing correct line-breaks (see https://tex.stackexchange.com/a/3034)
+% Also disable the neon boxes around hyperlinks (https://tex.stackexchange.com/a/12408)
+\PassOptionsToPackage{hyphens}{url}\usepackage[hidelinks]{hyperref}
+
+% Provide additional features to the verbatim environment
+\usepackage{moreverb}
+
+% Enable figure and table (sub)captioning, and configure their font
+\usepackage[font=small]{caption}
+\captionsetup[figure]{labelfont=bf,textfont=bf}
+\captionsetup[table]{labelfont=bf,textfont=bf}
+\usepackage{subcaption}
+
+% Extend the interface of floating objects like figures and tables
+\usepackage{float}
+
+% Provide framed and coloured boxes
+\usepackage{mdframed}
+
+% Flexible handling of verbatim environment
+\usepackage{fancyvrb}
+
+% Macro package to create graphics, with its "user-friendly" syntax Tikz
+\usepackage{pgf}
+\usepackage{tikz}
+% Enable drawing plots by directly specifying them in Tex
+\usepackage{pgfplots}
+% This is just loading optimizations
+\usetikzlibrary{shapes.misc,shapes,external,pgfplots.statistics}
+\usepgfplotslibrary{groupplots}
+
+% Provide facilities to insert (or not) spaces after macros (with "\xspace")
+\usepackage{xspace}
+
+% Provide the text companion font
+\usepackage{textcomp}
+
+% For figures in network protocol specifications
+\usepackage{bytefield}
+
+% For LuaTex, provide utility commands built-in in pdflatex
+\usepackage{pdftexcmds}
+
+% Provide support to rotate figures
+\usepackage{rotating}
+
+% To include PDF documents inside the current one
+\usepackage{pdfpages}
+
+% Allow wrapping text around figures
+\usepackage{wrapfig}
+
+% Define colors
+\usepackage{xcolor}
+
+% Enable algorithm definition
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% Change the section numbering depth to 3 levels
+\setcounter{secnumdepth}{3}
+% Idem for the table of contents
+\setcounter{tocdepth}{3}
+
+% Replace the item bullets by a nice gray square
+\renewcommand{\labelitemi}{\color{gray} \scriptsize$\blacksquare$}
+
+% Placing TODOs in Latex
+\usepackage{todonotes}
+% Proposed options: inline TODOs instead of margin ones, disable TODOs
+%\presetkeys{todonotes}{inline,linecolor=red,backgroundcolor=red!25,disable}{}
+
+% I hope you won't require this package once your thesis is completed :-)
+\usepackage{lipsum}
+
+% To tune the chapter format
+\usepackage{pbox}
+\usepackage[clearempty,newlinetospace,raggedright,small,explicit]{titlesec}
+
+% For the chapterformatting
+\definecolor{gray65}{gray}{0.65}
+
+\newcommand{\size}[2]{{\fontsize{#1}{0}\selectfont #2}}
+\newcommand{\sizeline}[3]{{\fontsize{#1}{#2}\selectfont #3}}
+\newenvironment{sizepar}[2]
+{\par\fontsize{#1}{#2}\selectfont}
+{\par}
+
+\newcommand{\printchapternumber}{%
+	\begingroup\renewcommand{\arraystretch}{0}%
+	\begin{tabular}{@{}c@{}}\size{56}{\thechapter}\end{tabular}%
+	\endgroup
+}
+
+\titleformat{\chapter}[block]
+{\bfseries\filright}
+{}
+{0pt}
+{%
+	\parbox{.865\textwidth}{\raggedright\Huge\selectfont#1}%
+	\hspace{6pt}%
+	\color{gray65}\vrule width 1.5pt
+	\hspace{6pt}%
+	\printchapternumber
+}
+
+\titleformat{name=\chapter,numberless}[block]
+{\bfseries\filright}
+{}
+{0pt}
+{%
+	\parbox{\textwidth}{\raggedright\Huge\selectfont#1}%
+}
+
+\titlespacing*{\chapter}{0pt}{0pt}{60pt}
+
+%%%
+% Short date format : May 2019
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
+
+%%%% Short commands %%%
+% Title of the thesis
+\newcommand{\thesisTitle}{A Wonderful Title for Your Thesis}
+
+% Your name here (and keep the "\xspace"!)
+\newcommand{\thesisAuthor}{Jean-Luc Picard\xspace}
+
+% Clear an empty double page
+\newcommand{\clearemptydoublepage}{%
+	\newpage{\pagestyle{empty}\cleardoublepage}}
+
+% Define here all your user-defined commands here
+\input{commands.tex}
+
+
+\begin{document}
+\include{title}
+\include{copyright}
+% This one is optional
+\include{citation}
+\clearemptydoublepage
+% Start counting with latin numbers
+\frontmatter
+\clearemptydoublepage
+
+\include{preamble}
+\clearemptydoublepage
+
+\input{acknowledgments}
+\clearemptydoublepage
+
+\addcontentsline{toc}{chapter}{Table of Contents}
+\tableofcontents
+\clearemptydoublepage
+
+% Start the actual count
+\mainmatter
+
+\include{tips}
+\clearemptydoublepage
+
+\include{long}
+\clearemptydoublepage
+
+\include{ccl}
+\clearemptydoublepage
+
+% Write the reference section, without the personal publications
+\printbibliography[notcategory=fullcited]
+\end{document}

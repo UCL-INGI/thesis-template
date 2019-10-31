@@ -1,0 +1,63 @@
+\chapter{Some Examples for Thesis Content}\label{sec:tips}
+
+We provide here some basic examples.
+We also show that citing some works~\cite{jacobson1995congestion,apple_xnu_2018,aosp_source_code,brakmo_tcp_1995,langley_quic_2017} works!
+
+\section{Stuff for Computer Networks}
+
+The \texttt{bytefield} package is very useful to show how network packets are specified.
+Figure~\ref{fig:tips:tcp_header} shows the format of a \tcp header.
+The important commands are \texttt{\textbackslash bitheader} (indicating range where the heading bit numbers are set), \texttt{\textbackslash bitbox} (setting the size of the field with its content) and \texttt{\textbackslash wordbox}.
+
+\begin{figure}
+	\centering
+	\biolinum
+	\begin{bytefield}[bitwidth=10pt]{32}
+		%\only<2>{\foreach \b in {7,6,5,4,3,2,1}{%
+		%		\bitlabel{\b}&}%
+		%	\bitlabel{0}&\bitbox[RLTB]{24}{}\\}%
+		\bitheader{0-31}\\%
+		\bitbox{16}{Source Port} & \bitbox{16}{Destination Port} \\
+		\bitbox{32}{Sequence Number} \\
+		\bitbox{32}{Acknowledgment Number}\\
+		\bitbox{4}{\footnotesize Data Offset} & \bitbox{4}{\small Reserved} & \bitbox{1}{C} & \bitbox{1}{E} & \bitbox{1}{U} & \bitbox{1}{A} & \bitbox{1}{P} & \bitbox{1}{R} & \bitbox{1}{S} & \bitbox{1}{F} & \bitbox{16}{Window} \\
+		\bitbox{16}{Checksum} & \bitbox{16}{Urgent Pointer} \\
+		\wordbox[tlr]{1}{TCP Options}\\
+		\wordbox[blr]{1}{($\text{Length} = 4 \times (\text{Data Offset} - 5)$)}\\
+	\end{bytefield}
+	\caption{The TCP header~\cite{rfc793}.}
+	\label{fig:tips:tcp_header}
+\end{figure}
+
+Besides this, time sequence diagrams are often needed to explain the flow of a connection.
+Figure~\ref{fig:tips:tcp_open_seqdiag} shows the 3-way handshake of \tcp, written in Tikz.
+
+\begin{figure}
+	\input{figures/tips_time_sequence_diagram_tcp_open.tex}
+	\caption{Establishing a \tcp connection.}
+	\label{fig:tips:tcp_open_seqdiag}
+\end{figure}
+
+\section{Regular Plots}
+
+You can make plots easily with, e.g., \texttt{matplotlib}.
+I personally find that PGF files render better than PDF ones, though it is a matter of opinion.
+
+\begin{figure}
+	\input{figures/tips_plot_1.pgf}
+	\caption{A first plot.}
+	\label{fig:tips:plot_1}
+\end{figure}
+
+To have uniform plots, I recommend using a configuration file, such as \texttt{figures/figure.py}, where all the plotting parameters are set.
+Figure~\ref{fig:tips:plot_1} shows a first plot with the default values.
+Notice that the width of the PGF figure is fixed, and should be set manually in the \texttt{figure.py} file to \the \textwidth.
+
+\begin{figure}
+	\input{figures/tips_plot_2.pgf}
+	\caption{A second, squeezed plot.}
+	\label{fig:tips:plot_2}
+\end{figure}
+
+Notice that the provided \texttt{latexify()} function also enables setting the width and the height of the PGF figure.
+Figure~\ref{fig:tips:plot_2} exemplifies this.
