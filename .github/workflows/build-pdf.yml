@@ -2,7 +2,7 @@ name: Build LaTeX document
 # Trigger the workflow on push or pull request
 on: [push, pull_request]
 env:
-  FINAL_FILENAME: Yakoub_13861700_2020.pdf
+  FINAL_FILENAME: thesis_final.pdf
   MAIN_LATEX: thesis.tex
   DATE_TIMEZONE: Europe/Brussels
 
