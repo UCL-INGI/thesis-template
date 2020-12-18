@@ -5,6 +5,7 @@ env:
   FINAL_FILENAME: thesis_final.pdf
   MAIN_LATEX: thesis_elec.tex
   DATE_TIMEZONE: Europe/Brussels
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build_latex:
