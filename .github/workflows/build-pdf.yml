@@ -3,7 +3,7 @@ name: Build LaTeX document
 on: [push, pull_request]
 env:
   FINAL_FILENAME: thesis_final.pdf
-  MAIN_LATEX: thesis.tex
+  MAIN_LATEX: thesis_elec.tex
   DATE_TIMEZONE: Europe/Brussels
 
 jobs:
